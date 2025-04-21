@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - Krishi Sathi</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    h2 {
+      color: #2e7d32;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background: #2e7d32;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Admin Panel - किसान रजिस्ट्रेशन लिस्ट</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>नाम</th>
+        <th>मोबाइल</th>
+        <th>जिला</th>
+        <th>खेती</th>
+        <th>रजिस्ट्रेशन समय</th>
+      </tr>
+    </thead>
+    <tbody id="farmerList">
+    </tbody>
+  </table>
+
+  <script>
+    // Fetch data from localStorage
+    const farmers = JSON.parse(localStorage.getItem("farmers")) || [];
+    const tbody = document.getElementById("farmerList");
+
+    // Display farmers data in table
+    farmers.forEach(farmer => {
+      const row = `<tr>
+        <td>${farmer.name}</td>
+        <td>${farmer.mobile}</td>
+        <td>${farmer.district}</td>
+        <td>${farmer.crop}</td>
+        <td>${farmer.date}</td>
+      </tr>`;
+      tbody.innerHTML += row;
+    });
+  </script>
+
+</body>
+</html>
