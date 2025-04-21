@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Krishi Sathi – हर किसान का डिजिटल साथी</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f4;
+      color: #333;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2e7d32;
+      color: white;
+      padding: 10px 20px;
+    }
+
+    .topbar .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .topbar .language-switch {
+      display: flex;
+      gap: 10px;
+    }
+
+    .topbar button {
+      padding: 5px 10px;
+      border: none;
+      background: #cddc39;
+      color: #333;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    nav {
+      display: none;
+      flex-direction: column;
+      background: #388e3c;
+      position: fixed;
+      top: 60px;
+      left: 0;
+      width: 200px;
+      height: 100%;
+      padding-top: 20px;
+      z-index: 999;
+    }
+
+    nav a {
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      background: #2e7d32;
+    }
+
+    .menu-btn {
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      color: white;
+      background: url('https://www.bankofbaroda.in/-/media/project/bob/countrywebsites/india/business-banking/rural-and-agri/loans-and-advances/agricultural-finance/farm-credit/shg-jlg-fpo/financing-farmer-producer-companies/spotlight/financing-farmer-producer-companies-spotlightbanner.jpg?h=400&iar=0&w=1080&hash=2166B10EA7C4A8DAAD06D895D51F2398') no-repeat center center/cover;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 5px #000;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 3px #000;
+    }
+
+    .hero button {
+      background: #ffeb3b;
+      color: #333;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .services {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 40px 10px;
+      background: rgba(255, 255, 255, 0.9);
+      flex: 1;
+    }
+
+    .service-card {
+      width: 250px;
+      margin: 15px;
+      padding: 20px;
+      background: violet;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .footer {
+      background: #2e7d32;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    @media(max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .services { flex-direction: column; align-items: center; }
+    }
+    .service-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 15px;
+}
+
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <span class="menu-btn" onclick="toggleMenu()">☰</span>
+    <div class="logo">🌱 Krishi Sathi</div>
+    <div class="language-switch">
+      <button onclick="changeLanguage('hi')">हिंदी</button>
+      <button onclick="changeLanguage('en')">English</button>
+    </div>
+  </div>
+
+  <nav id="sidebar">
+    <a href="index.html">होम</a>
+    <a href="rg.html">रजिस्ट्रेशन</a>
+    <a href="#">फसल गाइड</a>
+    <a href="#">मंडी रेट</a>
+    <a href="#">योजनाएं</a>
+    <a href="#">संपर्क</a>
+  </nav>
+
+  <section class="hero">
+    <h1 id="hero-title">आपका खेती का डिजिटल साथी</h1>
+    <p id="hero-desc">अब खेती में मदद मिलेगी सीधे मोबाइल पर – योजना, मंडी रेट्स और फसल गाइड</p>
+    <button>शुरू करें</button>
+  </section>
+
+  <section class="services">
+    <div class="service-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/2909/2909765.png" alt="Fasal Guide" />
+      <h3>🌾 फसल गाइड</h3>
+      <p>मौसम अनुसार कौन सी फसल, कैसे करें बुआई और सिंचाई</p>
+    </div>
+    <div class="service-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/891/891462.png" alt="Mandi Rates" />
+      <h3>💰 मंडी रेट्स</h3>
+      <p>अपने गांव और जिले के ताजा रेट्स हर दिन देखें</p>
+    </div>
+    <div class="service-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/4379/4379930.png" alt="Yojana" />
+      <h3>📋 सरकारी योजना</h3>
+      <p>PM किसान, बीमा, लोन – सब एक जगह पर</p>
+    </div>
+    <div class="service-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/126/126509.png" alt="Support" />
+      <h3>📞 किसान सपोर्ट</h3>
+      <p>व्हाट्सएप और कॉल से मदद लें</p>
+    </div>
+  </section>
+  
+  <footer class="footer">
+    <p>&copy; 2025 Krishi Sathi | Designed by Yash Yadav</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('sidebar');
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function changeLanguage(lang) {
+      const title = document.getElementById('hero-title');
+      const desc = document.getElementById('hero-desc');
+
+      if (lang === 'hi') {
+        title.innerText = 'आपका खेती का डिजिटल साथी';
+        desc.innerText = 'अब खेती में मदद मिलेगी सीधे मोबाइल पर – योजना, मंडी रेट्स और फसल गाइड';
+      } else {
+        title.innerText = 'Your Digital Farming Partner';
+        desc.innerText = 'Now get farming help directly on mobile – Schemes, Market Rates & Crop Guides';
+      }
+    }
+  </script>
+</body>
+</html>
