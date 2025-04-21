@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>Krishi Sathi - रजिस्ट्रेशन</title>
+  <style>
+    body { font-family: sans-serif; background: #f2f2f2; padding: 20px; }
+    .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
+    input, select, button {
+      width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc;
+    }
+    button { background: #2e7d32; color: white; border: none; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Krishi Sathi - किसान रजिस्ट्रेशन</h2>
+    <form id="registerForm">
+      <input type="text" id="name" placeholder="किसान का नाम" required />
+      <input type="tel" id="mobile" placeholder="मोबाइल नंबर" required />
+      <select id="district" required>
+        <option value="">चुनें जिला</option>
+        <option value="आगर मालवा">आगर मालवा</option>
+        <option value="अलीराजपुर">अलीराजपुर</option>
+        <option value="अनूपपुर">अनूपपुर</option>
+        <option value="आधेर">आधेर</option>
+        <option value="बालाघाट">बालाघाट</option>
+        <option value="बाराम्बी">बाराम्बी</option>
+        <option value="छत्तीसगढ़">छत्तीसगढ़</option>
+        <option value="बालाघाट">बालाघाट</option>
+        <option value="भोपाल">भोपाल</option>
+        <option value="बुरहानपुर">बुरहानपुर</option>
+        <option value="चिंतल">चिंतल</option>
+        <option value="ग्वालियर">ग्वालियर</option>
+        <option value="झाबुआ">झाबुआ</option>
+        <option value="जबलपुर">जबलपुर</option>
+        <option value="सागर">सागर</option>
+        <option value="उज्जैन">उज्जैन</option>
+        <option value="इंदौर">इंदौर</option>
+        <option value="ललितपुर">ललितपुर</option>
+        <option value="शिवपुरी">शिवपुरी</option>
+        <option value="भोपाल">भोपाल</option>
+        <option value="महकौनी">महकौनी</option>
+    </select>
+
+
+      <select id="crop" required>
+        <option value="">खेती का प्रकार</option>
+        <option value="धान">धान</option>
+        <option value="गेंहू">गेंहू</option>
+        <option value="सब्जियां">सब्जियां</option>
+        <option value="फल">फल</option>
+      </select>
+      <button type="submit">रजिस्टर करें</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const mobile = document.getElementById("mobile").value;
+      const district = document.getElementById("district").value;
+      const crop = document.getElementById("crop").value;
+      const date = new Date().toLocaleString();
+
+      // Save data to localStorage
+      let farmers = JSON.parse(localStorage.getItem("farmers")) || [];
+      farmers.push({ name, mobile, district, crop, date });
+      localStorage.setItem("farmers", JSON.stringify(farmers));
+
+      alert("रजिस्ट्रेशन सफल रहा!");
+      document.getElementById("registerForm").reset();
+    });
+  </script>
+</body>
+</html>
