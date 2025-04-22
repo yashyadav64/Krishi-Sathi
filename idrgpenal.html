@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - All Customers</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      padding: 30px;
+    }
+
+    h2 {
+      color: #2e7d32;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .search-box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button.search-btn {
+      padding: 10px 20px;
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    tr:hover {
+      background-color: #f1f8e9;
+    }
+
+    .status-active {
+      color: green;
+      font-weight: bold;
+    }
+
+    .status-inactive {
+      color: red;
+      font-weight: bold;
+    }
+
+    .verify-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .unverify-btn {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .verify-btn:disabled, .unverify-btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      tr {
+        margin-bottom: 15px;
+      }
+
+      td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+      }
+
+      td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: 45%;
+        text-align: left;
+        font-weight: bold;
+        color: #666;
+      }
+
+      th {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h2>📋 Registered Customer Details</h2>
+
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="Search by Customer ID (e.g., CUS8)">
+  <button class="search-btn" onclick="searchUser()">Search</button>
+</div>
+
+<table id="userTable">
+  <thead>
+    <tr>
+      <th>Customer ID</th>
+      <th>Name</th>
+      <th>Mobile</th>
+      <th>Email</th>
+      <th>Aadhar</th>
+      <th>Bank</th>
+      <th>Branch</th>
+      <th>Password</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+  const allUsers = JSON.parse(localStorage.getItem('users')) || [];
+  const tbody = document.querySelector('#userTable tbody');
+
+  function renderTable(users) {
+    tbody.innerHTML = '';
+    if (users.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No user data found</td></tr>';
+      return;
+    }
+
+    users.forEach((user, index) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td data-label="Customer ID">CUS${index + 8}</td>
+        <td data-label="Name">${user.name}</td>
+        <td data-label="Mobile">${user.mobile}</td>
+        <td data-label="Email">${user.email}</td>
+        <td data-label="Aadhar">${user.aadhar}</td>
+        <td data-label="Bank">${user.bankName}</td>
+        <td data-label="Branch">${user.branchName}</td>
+        <td data-label="Password">${user.password}</td>
+        <td data-label="Status">
+          <span class="${user.status === 'active' ? 'status-active' : 'status-inactive'}">
+            ${user.status}
+          </span>
+        </td>
+        <td data-label="Action">
+          <button class="verify-btn" onclick="verifyUser(${index})" ${user.status === 'active' ? 'disabled' : ''}>
+            Verify
+          </button>
+          <button class="unverify-btn" onclick="unverifyUser(${index})" ${user.status === 'inactive' ? 'disabled' : ''}>
+            Unverify
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function searchUser() {
+    const input = document.getElementById('searchInput').value.trim().toUpperCase();
+    if (!input.startsWith('CUS')) {
+      alert('Please enter a valid Customer ID like CUS8');
+      return;
+    }
+
+    const index = parseInt(input.replace('CUS', '')) - 8;
+    if (index >= 0 && index < allUsers.length) {
+      renderTable([allUsers[index]]);
+    } else {
+      renderTable([]);
+    }
+  }
+
+  function verifyUser(index) {
+    allUsers[index].status = 'active';
+    localStorage.setItem('users', JSON.stringify(allUsers));
+    renderTable(allUsers);
+  }
+
+  function unverifyUser(index) {
+    allUsers[index].status = 'inactive';
+    localStorage.setItem('users', JSON.stringify(allUsers));
+    renderTable(allUsers);
+  }
+
+  // Default: show all users
+  renderTable(allUsers);
+  function renderTable(users) {
+  tbody.innerHTML = '';
+  if (users.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No user data found</td></tr>';
+    return;
+  }
+
+  users.forEach((user, index) => {
+    // अगर Customer ID नहीं है तो बना दो
+    if (!user.customerId) {
+      user.customerId = `CUS${index + 8}`;
+    }
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td data-label="Customer ID">${user.customerId}</td>
+      <td data-label="Name">${user.name}</td>
+      <td data-label="Mobile">${user.mobile}</td>
+      <td data-label="Email">${user.email}</td>
+      <td data-label="Aadhar">${user.aadhar}</td>
+      <td data-label="Bank">${user.bankName}</td>
+      <td data-label="Branch">${user.branchName}</td>
+      <td data-label="Password">${user.password}</td>
+      <td data-label="Status">
+        <span class="${user.status === 'active' ? 'status-active' : 'status-inactive'}">
+          ${user.status}
+        </span>
+      </td>
+      <td data-label="Action">
+        <button class="verify-btn" onclick="verifyUser('${user.customerId}')" ${user.status === 'active' ? 'disabled' : ''}>
+          Verify
+        </button>
+        <button class="unverify-btn" onclick="unverifyUser('${user.customerId}')" ${user.status === 'inactive' ? 'disabled' : ''}>
+          Unverify
+        </button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  localStorage.setItem('users', JSON.stringify(allUsers)); // Update users with customerId
+}
+
+function searchUser() {
+  const input = document.getElementById('searchInput').value.trim().toUpperCase();
+  if (!input.startsWith('CUS')) {
+    alert('Please enter a valid Customer ID like CUS8');
+    return;
+  }
+
+  const foundUser = allUsers.find(user => user.customerId === input);
+  if (foundUser) {
+    renderTable([foundUser]);
+  } else {
+    renderTable([]);
+  }
+}
+
+function verifyUser(customerId) {
+  const user = allUsers.find(u => u.customerId === customerId);
+  if (user) {
+    user.status = 'active';
+    localStorage.setItem('users', JSON.stringify(allUsers));
+    renderTable(allUsers);
+  }
+}
+
+function unverifyUser(customerId) {
+  const user = allUsers.find(u => u.customerId === customerId);
+  if (user) {
+    user.status = 'inactive';
+    localStorage.setItem('users', JSON.stringify(allUsers));
+    renderTable(allUsers);
+  }
+}
+
+</script>
+
+</body>
+</html>
