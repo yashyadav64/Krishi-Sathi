@@ -1,0 +1,140 @@
+<!-- register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register New User</title>
+  <style>
+    body { font-family: Arial; background: #f7fdf7; padding: 20px; }
+    .section { background: white; padding: 20px; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    label { display: block; margin: 10px 0 5px; }
+    select, input { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
+    .row { display: flex; gap: 15px; flex-wrap: wrap; }
+    .row > div { flex: 1; min-width: 200px; }
+    .hidden { display: none; }
+    button { background: green; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<h2>Register New User</h2>
+<form id="registrationForm">
+
+  <div class="section">
+    <h3>Official Information</h3>
+    <div class="row">
+      <div>
+        <label>Stakeholder</label>
+        <select id="stakeholder" required>
+          <option value="">Select</option>
+          <option value="BANK">BANK</option>
+        </select>
+      </div>
+      <div>
+        <label>Choose Bank Type</label>
+        <select id="bankType" required>
+          <option value="">Select Bank</option>
+          <option value="COMMERCIAL">COMMERCIAL</option>
+        </select>
+      </div>
+      <div>
+        <label>User Category</label>
+        <select id="userCategory" required>
+          <option value="">Select Category</option>
+          <option value="Branch Head">Branch Head</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="section hidden" id="nextSection">
+    <div class="row">
+      <div><label>State</label><input id="state" type="text" required></div>
+      <div><label>District</label><input id="district" type="text" required></div>
+      <div><label>Bank Name</label><input id="bankName" type="text" required></div>
+      <div><label>Branch Name</label><input id="branchName" type="text" required></div>
+      <div><label>Address</label><input id="address" type="text" required></div>
+    </div>
+  </div>
+
+  <div class="section hidden" id="personalSection">
+    <h3>Personal Information</h3>
+    <div class="row">
+      <div><label>Title</label><select id="title"><option value="Mr">Mr</option><option value="Mrs">Mrs</option></select></div>
+      <div><label>Name</label><input id="name" type="text" required></div>
+      <div><label>Aadhar ID</label><input id="aadhar" type="text" required></div>
+      <div><label>Mobile No</label><input id="mobile" type="text" required></div>
+      <div><label>Password</label><input id="password" type="password" required></div>
+      <div><label>Confirm Password</label><input id="confirmPassword" type="password" required></div>
+      <div><label>Email</label><input id="email" type="email"></div>
+    </div>
+  </div>
+
+  <div class="section hidden" id="submitSection">
+    <button type="submit">Submit</button>
+  </div>
+</form>
+
+<script>
+  const stakeholder = document.getElementById('stakeholder');
+  const bankType = document.getElementById('bankType');
+  const userCategory = document.getElementById('userCategory');
+  const nextSection = document.getElementById('nextSection');
+  const personalSection = document.getElementById('personalSection');
+  const submitSection = document.getElementById('submitSection');
+  const form = document.getElementById('registrationForm');
+
+  function checkFirstSection() {
+    if (stakeholder.value && bankType.value && userCategory.value) {
+      nextSection.classList.remove('hidden');
+      personalSection.classList.remove('hidden');
+      submitSection.classList.remove('hidden');
+    }
+  }
+
+  stakeholder.addEventListener('change', checkFirstSection);
+  bankType.addEventListener('change', checkFirstSection);
+  userCategory.addEventListener('change', checkFirstSection);
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Generate Customer ID (for example, we can simply add a number to a string)
+    const customerId = `CUS${Date.now()}`;
+
+    const user = {
+      customerId: customerId,  // Add the generated Customer ID
+      stakeholder: stakeholder.value,
+      bankType: bankType.value,
+      userCategory: userCategory.value,
+      state: document.getElementById('state').value,
+      district: document.getElementById('district').value,
+      bankName: document.getElementById('bankName').value,
+      branchName: document.getElementById('branchName').value,
+      address: document.getElementById('address').value,
+      title: document.getElementById('title').value,
+      name: document.getElementById('name').value,
+      aadhar: document.getElementById('aadhar').value,
+      mobile: document.getElementById('mobile').value,
+      password: document.getElementById('password').value,
+      email: document.getElementById('email').value,
+    };
+
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    users.push(user);
+    localStorage.setItem('users', JSON.stringify(users));
+
+    // Display customer ID to the user
+    alert(`User Registered Successfully! Your Customer ID is: ${customerId}`);
+
+    // Reset form and hide sections
+    form.reset();
+    nextSection.classList.add('hidden');
+    personalSection.classList.add('hidden');
+    submitSection.classList.add('hidden');
+  });
+</script>
+
+</body>
+</html>
